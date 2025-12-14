@@ -107,3 +107,12 @@ sys_uptime(void)
   release(&tickslock);
   return xticks;
 }
+
+uint64
+sys_trace(void)
+{
+  int sys_num;
+  argint(0, &sys_num);  // takes the 0 indexed argument inside sys_num variable
+  myproc()->trace_number = sys_num;
+  return 0;
+}
