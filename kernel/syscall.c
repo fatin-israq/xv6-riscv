@@ -165,8 +165,14 @@ syscall(void)
   if(num > 0 && num < NELEM(syscalls) && syscalls[num]) {
     // Use num to lookup the system call function for num, call it,
     // and store its return value in p->trapframe->a0
+    // extern uint ticks
+    uint64 start_time = ticks;
     p->trapframe->a0 = syscalls[num]();
-    if (p->trace_number == num){
+    uint64 end_time = ticks;
+    uint64 ex_time = end_time - start_time;
+
+    if (p->trace_number == num)
+    {
       printf("pid: %d, syscall: %s, return value: %ld\n", p->pid, syscallnames[num], p->trapframe->a0);
     }
   } else {
